@@ -1,0 +1,22 @@
+{
+    "name": "personal-utility-lib",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": "planet, happiness, people",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/SkorpionJ/personal-utility-lib.git"
+    },
+    "authors":
+    [
+
+    ],
+    "license": "MIT",
+    "homepage": "",
+    "dependencies": {
+      "ownername/print": "~1.3.0"
+    },
+    "frameworks": "*",
+    "platforms": "*"
+  }
