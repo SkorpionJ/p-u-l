@@ -14,14 +14,22 @@ private:
     bool current_stable_state;
     bool pullup;
 
-    Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH)
+    
+public:
+
+    Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH, bool pullup = true)
         : button_pin(pin),
           debounce_time(time),
           button_base_value(base_value),
           button_last_state(base_value),
-          current_stable_state(base_value) {}
+          current_stable_state(base_value),
+          pullup(pullup) 
+    {
+        if (pin != -1) {
+            begin(pullup);
+        }
+    }
 
-public:
     void setup(short button_pin, unsigned long debounce_time, bool button_base_value)
     {
         pullup ? pinMode(button_pin, INPUT_PULLUP) : pinMode(button_pin, INPUT);
