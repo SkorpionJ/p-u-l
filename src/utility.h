@@ -38,31 +38,31 @@ public:
     }
 
     bool wasPressed()
-    {
-        bool current_state = digitalRead(this->button_pin);
-        unsigned long now = millis();
+{
+    bool current_state = digitalRead(button_pin);
+    unsigned long now = millis();
 
-        //read inputs
-        if (current_state != this->button_last_state)
-        {
-            now = this->button_last_change;
-            this->button_changed = true;
-        }
+    // Check for state change
+    if (current_state != button_last_state) {
+        button_last_change = now;
+        button_changed = true;
+    }
 
-        // debounce function
-        if (this->button_changed && (now - this->button_last_change >= this->debounce_time))
-        {
-            this->button_changed = false;
-            this->button_last_state = current_state;
-        }
-
-        // check stable state
-        if (current_state != current_stable_state)
-        {
+    // Debounce check
+    if (button_changed && (now - button_last_change >= debounce_time)) {
+        button_changed = false;
+        
+        // Check if stable state is different
+        if (current_state != current_stable_state) {
             current_stable_state = current_state;
+            
+            // Return true if pressed (opposite of base value)
             return (current_state != button_base_value);
         }
     }
+
+    return false;
+}
 
     bool isPressed()
     {
