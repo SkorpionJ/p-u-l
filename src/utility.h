@@ -14,18 +14,17 @@ private:
     bool current_stable_state;
     bool pullup;
 
-    
 public:
-
     Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH, bool pullup = true)
         : button_pin(pin),
           debounce_time(time),
           button_base_value(base_value),
           button_last_state(base_value),
           current_stable_state(base_value),
-          pullup(pullup) 
+          pullup(pullup)
     {
-        if (pin != -1) {
+        if (pin != -1)
+        {
             begin(pullup);
         }
     }
@@ -46,31 +45,34 @@ public:
     }
 
     bool wasPressed()
-{
-    bool current_state = digitalRead(button_pin);
-    unsigned long now = millis();
+    {
+        bool current_state = digitalRead(button_pin);
+        unsigned long now = millis();
 
-    // Check for state change
-    if (current_state != button_last_state) {
-        button_last_change = now;
-        button_changed = true;
-    }
-
-    // Debounce check
-    if (button_changed && (now - button_last_change >= debounce_time)) {
-        button_changed = false;
-        
-        // Check if stable state is different
-        if (current_state != current_stable_state) {
-            current_stable_state = current_state;
-            
-            // Return true if pressed (opposite of base value)
-            return (current_state != button_base_value);
+        // Check for state change
+        if (current_state != button_last_state)
+        {
+            button_last_change = now;
+            button_changed = true;
         }
-    }
 
-    return false;
-}
+        // Debounce check
+        if (button_changed && (now - button_last_change >= debounce_time))
+        {
+            button_changed = false;
+
+            // Check if stable state is different
+            if (current_state != current_stable_state)
+            {
+                current_stable_state = current_state;
+
+                // Return true if pressed (opposite of base value)
+                return (current_state != button_base_value);
+            }
+        }
+
+        return false;
+    }
 
     bool isPressed()
     {
@@ -80,15 +82,31 @@ public:
 class Pause
 {
 private:
-    unsigned long milliSec = 0;
+    unsigned long previousMillis = 0;
+    unsigned long previousMicros = 0;
 
 public:
-    bool wait(unsigned long milliSec)
+    bool wait_ms(unsigned long time_ms)
     {
-        if (millis() - this->milliSec >= milliSec)
+        unsigned long currentMillis = millis();
+
+        if (currentMillis - previousMillis >= time_ms)
         {
-            this->milliSec = millis();
+            previousMillis = currentMillis;
             return true;
         }
+        return false;
+    }
+
+    bool wait_us(unsigned long time_us)
+    {
+        unsigned long currentMicros = micros();
+
+        if (currentMicros - previousMicros >= time_us)
+        {
+            previousMicros = currentMicros;
+            return true;
+        }
+        return false;
     }
 };
