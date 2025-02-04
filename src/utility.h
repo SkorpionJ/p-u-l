@@ -74,6 +74,14 @@ public:
         return false;
     }
 
+    bool rose() {
+        return wasPressed() && isPressed();
+    }
+
+    bool fell() {
+        return wasPressed() && !isPressed();
+    }
+
     bool isPressed()
     {
         return digitalRead(button_pin) != button_base_value;
