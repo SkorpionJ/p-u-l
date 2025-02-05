@@ -25,12 +25,7 @@ public:
           button_last_state(base_value),
           current_stable_state(base_value),
           pullup(pullup)
-    {
-        if (pin != -1)
-        {
-            begin(pullup);
-        }
-    }
+    {}
 
     void begin(short button_pin, unsigned long debounce_time, bool button_base_value, bool pullup = true)
     {
@@ -45,7 +40,7 @@ public:
         this->pullup = pullup;
     }
 
-    bool update()
+    void update()
     {
         this->current_state = digitalRead(button_pin);
 
