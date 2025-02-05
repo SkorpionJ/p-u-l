@@ -32,7 +32,7 @@ public:
         }
     }
 
-    void setup(short button_pin, unsigned long debounce_time, bool button_base_value)
+    void begin(short button_pin, unsigned long debounce_time, bool button_base_value, bool pullup = true)
     {
         pullup ? pinMode(button_pin, INPUT_PULLUP) : pinMode(button_pin, INPUT);
         this->button_pin = button_pin;
@@ -40,10 +40,7 @@ public:
         this->button_base_value = button_base_value;
         this->button_last_state = button_base_value;
         this->current_stable_state = button_base_value;
-    }
-
-    void begin(bool pullup = true)
-    {
+        
         pinMode(button_pin, pullup ? INPUT_PULLUP : INPUT);
         this->pullup = pullup;
     }
