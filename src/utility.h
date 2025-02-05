@@ -13,6 +13,9 @@ private:
     bool button_last_state;
     bool current_stable_state;
     bool pullup;
+    bool current_state = false;
+
+    bool f_changed = false;
 
 public:
     Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH, bool pullup = true)
@@ -36,6 +39,7 @@ public:
         this->debounce_time = debounce_time;
         this->button_base_value = button_base_value;
         this->button_last_state = button_base_value;
+        this->current_stable_state = button_base_value;
     }
 
     void begin(bool pullup = true)
@@ -44,14 +48,19 @@ public:
         this->pullup = pullup;
     }
 
-    bool wasPressed()
+    bool update()
     {
-        bool current_state = digitalRead(button_pin);
+        this->current_state = digitalRead(button_pin);
+
+        if (this->f_changed) this->f_changed = false;
+
+        
         unsigned long now = millis();
 
         // Check for state change
         if (current_state != button_last_state)
         {
+            button_last_state = current_state;
             button_last_change = now;
             button_changed = true;
         }
@@ -65,26 +74,26 @@ public:
             if (current_state != current_stable_state)
             {
                 current_stable_state = current_state;
-
-                // Return true if pressed (opposite of base value)
-                return (current_state != button_base_value);
+                this->f_changed = true;
             }
         }
+    }
 
-        return false;
+    bool changed() {
+        return this->f_changed;
     }
 
     bool rose() {
-        return wasPressed() && isPressed();
+        return changed() && isPressed();
     }
 
     bool fell() {
-        return wasPressed() && !isPressed();
+        return changed() && !isPressed();
     }
 
     bool isPressed()
     {
-        return digitalRead(button_pin) != button_base_value;
+        return this->current_stable_state!= button_base_value;
     }
 };
 class Pause
