@@ -3,7 +3,7 @@
 
 class Button
 {
-private:
+public:
     unsigned long button_last_change;
     unsigned long debounce_time;
 
@@ -17,7 +17,6 @@ private:
 
     bool f_changed = false;
 
-public:
     Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH, bool pullup = true)
         : button_pin(pin),
           debounce_time(time),
@@ -25,7 +24,8 @@ public:
           button_last_state(base_value),
           current_stable_state(base_value),
           pullup(pullup)
-    {}
+    {
+    }
 
     void begin(short button_pin, unsigned long debounce_time, bool button_base_value, bool pullup = true)
     {
@@ -35,7 +35,7 @@ public:
         this->button_base_value = button_base_value;
         this->button_last_state = button_base_value;
         this->current_stable_state = button_base_value;
-        
+
         pinMode(button_pin, pullup ? INPUT_PULLUP : INPUT);
         this->pullup = pullup;
     }
@@ -44,9 +44,9 @@ public:
     {
         this->current_state = digitalRead(button_pin);
 
-        if (this->f_changed) this->f_changed = false;
+        if (this->f_changed)
+            this->f_changed = false;
 
-        
         unsigned long now = millis();
 
         // Check for state change
@@ -71,21 +71,24 @@ public:
         }
     }
 
-    bool changed() {
+    bool changed()
+    {
         return this->f_changed;
     }
 
-    bool rose() {
+    bool rose()
+    {
         return changed() && isPressed();
     }
 
-    bool fell() {
+    bool fell()
+    {
         return changed() && !isPressed();
     }
 
     bool isPressed()
     {
-        return this->current_stable_state!= button_base_value;
+        return this->current_stable_state != button_base_value;
     }
 };
 class Pause
