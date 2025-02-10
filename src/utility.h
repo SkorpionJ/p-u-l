@@ -3,7 +3,8 @@
 
 class Button
 {
-public:
+    private:
+
     unsigned long button_last_change;
     unsigned long debounce_time;
 
@@ -16,6 +17,8 @@ public:
     bool current_state = false;
 
     bool f_changed = false;
+
+    public:
 
     Button(short pin = -1, unsigned long time = 50, bool base_value = HIGH, bool pullup = true)
         : button_pin(pin),
