@@ -6,9 +6,10 @@ class Button
     private:
 
     unsigned long button_last_change;
-    unsigned long debounce_time;
+    
 
     short button_pin;
+    unsigned long debounce_time;
     bool button_changed;
     bool button_base_value;
     bool button_last_state;
