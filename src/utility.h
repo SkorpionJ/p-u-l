@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
+// Button *******************************************************************************************
 class Button
 {
     private:
@@ -95,6 +96,7 @@ class Button
         return this->current_stable_state != button_base_value;
     }
 };
+// Pause *******************************************************************************************
 class Pause
 {
 private:
@@ -126,3 +128,4 @@ public:
         return false;
     }
 };
+
