@@ -146,6 +146,7 @@ public:
 
   uint16_t mittelwert_calc(uint16_t new_val)
   {
-    return b * old_val + a * new_val;
+    old_val = b * old_val + a * new_val;
+    return old_val;
   }
 };
