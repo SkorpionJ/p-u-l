@@ -129,3 +129,23 @@ public:
     }
 };
 
+// Mittelwert *************************************************************************************+
+class Mittelwert
+{
+private:
+  float a = 0;
+  float b = 0;
+  uint16_t old_val = 0;
+
+public:
+  void begin(int anzahlWerte)
+  {
+    a = 1.0 / anzahlWerte;
+    b = 1 - (1.0 / anzahlWerte);
+  }
+
+  uint16_t mittelwert_calc(uint16_t new_val)
+  {
+    return b1 * old_val + a0 * new_val;
+  }
+};
